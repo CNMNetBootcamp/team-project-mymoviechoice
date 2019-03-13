@@ -1,3 +1,4 @@
 ﻿Jose was here
-David was here
-Wesley was here as well
+David wuz here
+Wesley was here as well\
+yo wazzup this is the FBI

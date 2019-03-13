@@ -1,2 +1,2 @@
 ﻿Jose was here
-David wuz here
+David was here

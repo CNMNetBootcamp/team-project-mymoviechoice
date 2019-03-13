@@ -6,20 +6,39 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MyMovieChoice.Data;
 
 namespace MyMovieChoice
 {
-  public class Program
-  {
-    public static void Main(string[] args)
+    public class Program
     {
-      BuildWebHost(args).Run();
-    }
+        public static void Main(string[] args)
+        {
+            var host = BuildWebHost(args);
 
-    public static IWebHost BuildWebHost(string[] args) =>
-        WebHost.CreateDefaultBuilder(args)
-            .UseStartup<Startup>()
-            .Build();
-  }
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                try
+                {
+                    var context = services.GetRequiredService<MovieListContext>();
+                    DbInitializer.Initialize(context);
+                }
+                catch (Exception ex)
+                {
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "an error occured");
+                }
+            }
+            BuildWebHost(args).Run();
+
+        }
+
+        public static IWebHost BuildWebHost(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>()
+                .Build();
+    }
 }

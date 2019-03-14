@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using MyMovieChoice.Data;
 using MyMovieChoice.Models;
 using System.Threading.Tasks;
@@ -11,11 +12,14 @@ namespace MovieListApi.Controllers
     [Route("api/MovieListConroller")]
     public class MovieListConroller : Controller
     {
+        ApiSettings _apiSettings;
 
         private readonly MovieListContext _context;
-        public MovieListConroller(MovieListContext context)
+        public MovieListConroller(MovieListContext context, ApiSettings apiSettings)
         {
             _context = context;
+            _apiSettings = apiSettings;
+            //TODO: make sure whaever calls me get me ^^^
         }
 
 

@@ -9,5 +9,11 @@ namespace MyMovieChoice.Models
     {
         public string MovieBaseUrl { get; set; }
 
+        public class OMDBAPISettings
+        {
+            public string OmdbBaseURL { get; set; }
+            public string OmdbAPIKey { get; set; }
+            public string SearchBaseURL { get; set; }
+        }
     }
 }

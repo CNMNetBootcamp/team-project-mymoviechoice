@@ -48,7 +48,7 @@ namespace MyMovieChoice
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=MovieList}/{action=GetMovieList}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

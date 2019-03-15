@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 namespace MovieListApi.Controllers
 {
     [Produces("application/json")]
-    [Route("api/MovieListConroller")]
-    public class MovieListConroller : Controller
+    [Route("api/MovieListController")]
+    public class MovieListController : Controller
     {
         ApiSettings _apiSettings;
 
         private readonly MovieListContext _context;
-        public MovieListConroller(MovieListContext context, ApiSettings apiSettings)
+        public MovieListController(MovieListContext context, ApiSettings apiSettings)
         {
             _context = context;
             _apiSettings = apiSettings;
@@ -33,7 +33,7 @@ namespace MovieListApi.Controllers
             return ThisMovie;
         }
 
-        public async Task<IActionResult> GetMovieList()
+        public async Task<IActionResult> GetMovieList( int? id )
         {
             var movieContext = _context.MovieLists.Include(d => d.MovieListID);
             return View(await movieContext.ToListAsync());

@@ -20,7 +20,7 @@ namespace MovieListApi
 
     public IConfiguration Configuration { get; }
 
-    // This method gets called by the runtime. Use this method to add services to the container.
+    // This method gets called by the runtime. Use this method to add services to the container.C:\Users\Owner\Source\Repos\team-project-mymoviechoice\MyMovieChoice\MovieListApi\Startup.cs
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddMvc();

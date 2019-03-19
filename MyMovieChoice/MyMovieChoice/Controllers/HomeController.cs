@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using myChoiceModels;
 using MyMovieChoice.Models;
 using Newtonsoft.Json;
 using System;
@@ -65,7 +66,44 @@ namespace MyMovieChoice.Controllers
       return View();
     }
 
-    public IActionResult Error()
+        //added details
+        public IActionResult Detail(string Title, string ReleaseYear)
+        {
+                        ViewBag.Title = Title;
+            HttpClient SearchClient = new HttpClient();
+
+            //Create the URI +Query 
+            var uri = new UriBuilder(_apiSettings.SearchBaseURL + "api/OmdbSearch");
+            var queryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
+            queryString["t"] = String.IsNullOrEmpty(Title) ? "Hush" : Title;
+            queryString["y"] = String.IsNullOrEmpty(ReleaseYear) ? "2016" : ReleaseYear;
+            queryString["plot"] = "Full";
+            queryString["apikey"] = _apiSettings.OmdbAPIKey;
+
+            uri.Query = queryString.ToString();
+            var request = SearchClient.GetAsync(uri.ToString());
+
+            var response = request.Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseString = response.Content.ReadAsStringAsync().Result;
+                try
+                {
+                    return View(JsonConvert.DeserializeObject<omdbSearchResult>(responseString));
+                }
+                catch (Exception ex)
+                {
+                    var errorString = JsonConvert.DeserializeObject<OmdbError>(responseString);
+                    return View(new omdbSearchResult());
+                }
+            }
+
+            return View(new omdbSearchResult());
+
+        }
+
+        public IActionResult Error()
     {
       return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }

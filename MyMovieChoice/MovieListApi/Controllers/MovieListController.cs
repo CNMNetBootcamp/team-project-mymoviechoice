@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using MyMovieChoice.Data;
 using MyMovieChoice.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MovieListApi.Controllers
@@ -10,31 +12,33 @@ namespace MovieListApi.Controllers
   [Route("api/MovieList")]
   public class MovieListController : Controller
   {
-    ApiSettings _apiSettings;
+    readonly ApiSettings _apiSettings;
+    MovieListContext _context;
 
-    private readonly MovieListContext _context;
-    public MovieListController(MovieListContext context, ApiSettings apiSettings)
+    public MovieListController(IOptions<ApiSettings> apiSettings, MovieListContext context)
     {
       _context = context;
-      _apiSettings = apiSettings;
-
+      _apiSettings = apiSettings.Value;
     }
 
-    public async Task<MovieList> GetMovie(int MovieListID)
-    {
+    //public async Task<MovieList> GetMovie(int MovieListID)
+    //{
+    //  var ThisMovie = await _context.MovieLists
+    //    .AsNoTracking()
+    //    .SingleOrDefaultAsync(m => m.MovieListID == MovieListID);
 
-      var ThisMovie = await _context.MovieLists
-        .AsNoTracking()
-        .SingleOrDefaultAsync(m => m.MovieListID == MovieListID);
-
-      return ThisMovie;
-    }
+    //  return ThisMovie;
+    //}
 
     [HttpGet("")]
-    public async Task<IActionResult> Index(int? id)
+    public async Task<List<MovieList>> Index()
     {
-      var movieContext = _context.MovieLists.Include(d => d.MovieListID);
-      return View(await movieContext.ToListAsync());
+      List<MovieList> bob = await _context.MovieLists.ToListAsync();
+      return bob;
+
+      //new List<MovieList>();
+      //var ThisMovieList = _context.MovieLists.ToListAsync();
+      //return (ThisMovieList);
     }
 
     [HttpPost]

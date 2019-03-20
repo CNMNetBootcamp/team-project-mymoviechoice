@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using MyMovieChoice.Data;
 using MyMovieChoice.Models;
 
@@ -23,7 +17,9 @@ namespace MovieListApi
 
     public IConfiguration Configuration { get; }
 
-    // This method gets called by the runtime. Use this method to add services to the container.C:\Users\Owner\Source\Repos\team-project-mymoviechoice\MyMovieChoice\MovieListApi\Startup.cs
+    // This method gets called by the runtime. Use this method to add services 
+    //to the container.C:\Users\Owner\Source\Repos\team-project-mymoviechoice\MyMovieChoice\
+    //MovieListApi\Startup.cs
     public void ConfigureServices(IServiceCollection services)
     {
       services.Configure<ApiSettings>(Configuration.GetSection("ApiSettings"));

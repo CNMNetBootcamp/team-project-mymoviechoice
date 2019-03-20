@@ -21,12 +21,11 @@ namespace MyMovieChoice.Controllers
     {
       HttpClient SearchClient = new HttpClient();
 
-      var uri = new UriBuilder(_apiSettings.MovieBaseUrl + "api/MovieList/Index");
+      var uri = new UriBuilder(_apiSettings.MovieBaseUrl + "api/MovieList");
       var querystring = HttpUtility.ParseQueryString(String.Empty);
 
       uri.Query = querystring.ToString();
       var request = SearchClient.GetAsync(uri.ToString());
-
       var response = request.Result;
 
       if (response.IsSuccessStatusCode)

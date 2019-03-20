@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
 
 
@@ -19,8 +20,7 @@ namespace MyMovieChoice.Controllers
     {
       _apiSettings = apiSettings.Value;
     }
-    public List<MovieList> Index()
-    //  public IActionResult Index()
+    public IActionResult Index()
     {
       HttpClient SearchClient = new HttpClient();
 
@@ -28,28 +28,13 @@ namespace MyMovieChoice.Controllers
       var querystring = HttpUtility.ParseQueryString(String.Empty);
 
       uri.Query = querystring.ToString();
-      var request = SearchClient.GetAsync(uri.ToString());
+      var request =   SearchClient.GetAsync(uri.ToString());
       var response = request.Result;
+      var responseString =  response.Content.ReadAsStringAsync().Result;
+      List<MovieList> aList = JsonConvert.DeserializeObject<List<MovieList>>(responseString);
 
-      //if (response.IsSuccessStatusCode)
-      //{
-        var responseString = response.Content.ReadAsStringAsync().Result;
-        return JsonConvert.DeserializeObject<List<MovieList>>(responseString);
-        
-      //}
-        //catch (Exception ex)
-        //{
-        //  var errorString = JsonConvert.DeserializeObject<MovieList>(responseString);
-        //  return View(new MyMovieModels()
-        //  {
-        //    Error = $"{errorString.error.code}"
-        //      + ": " + $"{errorString.error.description}"
-        //  });
-        //}
-        //return View(new responseString)
-      //}
+      return View(aList);
 
-      //return View();
     }
 
     public IActionResult About()

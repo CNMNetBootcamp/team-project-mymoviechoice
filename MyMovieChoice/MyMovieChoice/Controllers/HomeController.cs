@@ -4,6 +4,7 @@ using myChoiceModels;
 using MyMovieChoice.Models;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Web;
@@ -18,7 +19,8 @@ namespace MyMovieChoice.Controllers
     {
       _apiSettings = apiSettings.Value;
     }
-    public IActionResult Index()
+    public List<MovieList> Index()
+    //  public IActionResult Index()
     {
       HttpClient SearchClient = new HttpClient();
 
@@ -29,13 +31,12 @@ namespace MyMovieChoice.Controllers
       var request = SearchClient.GetAsync(uri.ToString());
       var response = request.Result;
 
-      if (response.IsSuccessStatusCode)
-      {
+      //if (response.IsSuccessStatusCode)
+      //{
         var responseString = response.Content.ReadAsStringAsync().Result;
-        //try
-        //{
-        return View(JsonConvert.DeserializeObject<MovieList>(responseString));
-        //}
+        return JsonConvert.DeserializeObject<List<MovieList>>(responseString);
+        
+      //}
         //catch (Exception ex)
         //{
         //  var errorString = JsonConvert.DeserializeObject<MovieList>(responseString);
@@ -46,9 +47,9 @@ namespace MyMovieChoice.Controllers
         //  });
         //}
         //return View(new responseString)
-      }
+      //}
 
-      return View();
+      //return View();
     }
 
     public IActionResult About()
